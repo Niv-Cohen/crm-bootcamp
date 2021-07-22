@@ -8,7 +8,7 @@ import { BsCalendarFill } from "react-icons/bs";
 import './EventForm.css'
 const EventForm = () => {
     const [selected, setSelected] = useState(0)
-    const buttons = [{ logo: GiChurch, logo2: BsCalendarFill, txt: "Date And Location" }, { logo: GiChurch, txt: "Theme" }, { txt: "Food" }]
+    const buttons = [{ txt: "Date And Location" }, { txt: "Theme" }, { txt: "Food" }]
     return (
         <div className="flex-row full-width">
             <div className="flex-col full-width">

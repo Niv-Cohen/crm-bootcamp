@@ -8,11 +8,43 @@ import "react-big-calendar/lib/addons/dragAndDrop/styles.css";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import 'react-bnb-gallery/dist/style.css'
 import ReactBnbGallery from 'react-bnb-gallery';
+import { chooseHallAndDate } from '../actions/events'
 import { getHallsInformation } from '../actions/buisness'
 import withDragAndDrop from "react-big-calendar/lib/addons/dragAndDrop";
 import { useDispatch, useSelector } from 'react-redux';
+import CustomCard from './CustomComponents/CustomCard/CustomCard';
 
 const localizer = momentLocalizer(moment)
+
+
+
+const calendarStyle = () => {
+    return {
+        style: {
+            backgroundColor: '#F5DEB3', //this work
+        }
+    }
+}
+
+// const eventStyleGetter = (event, start, end, isSelected) => {
+//     console.log(event);
+//     var backgroundColor = '#' + event.hexColor;
+//     var style = {
+//         backgroundColor: backgroundColor,
+//         borderRadius: '0px',
+//         opacity: 0.8,
+//         color: 'black',
+//         border: '0px',
+//         display: 'block'
+//     };
+//     return {
+//         style: style
+//     };
+// }
+
+
+
+
 
 const gallery = [[
     {
@@ -32,6 +64,9 @@ const gallery = [[
     }
 ]];
 
+const ceremonyTime = [{ start: '10:00', end: '15:00', title: 'Morning Ceremony' },
+{ start: '18:00', end: '01:00', title: 'Nightly Ceremony' }]
+
 const CustomMonthlyCalendar = () => {
     const { buisnessID, halls } = useSelector(state => state.buisness)
     const { isLoading } = useSelector(state => state.auth)
@@ -41,34 +76,93 @@ const CustomMonthlyCalendar = () => {
         dispatch(getHallsInformation(buisnessID))
     }, [])
 
-    const [events, setEvents] = useState([
+    const registeredEvents = [
         {
-
+            id: 0,
+            title: 'All Day Event very long title',
+            allDay: true,
+            start: new Date(2021, 6, 26, 18, 30),
+            end: new Date(2021, 6, 26, 1),
+            color: 'red'
         },
-    ])
+        {
+            id: 1,
+            title: 'Long Event',
+            start: new Date(2015, 3, 7),
+            end: new Date(2015, 3, 10),
+        },
+
+        {
+            id: 2,
+            title: 'DTS STARTS',
+            start: new Date(2016, 2, 13, 0, 0, 0),
+            end: new Date(2016, 2, 20, 0, 0, 0),
+        }
+    ]
+
+
+
+    const [events, setEvents] = useState(registeredEvents)
 
     const [isModalVisible, setIsModalVisible] = useState(false)
     const [isGalaryVisible, setIsGalaryVisible] = useState(false)
     const [selectedHall, setSelectedHall] = useState(0)
+    const [selectedTime, setSelectedTime] = useState(0)
+    const [selectedDate, setSelectedDate] = useState(null)
+
     const pickHallModal = () => {
         return (
             <div className="flex-col full-width">
                 <h2 className="centered">Choose An Hall For The Wedding</h2>
                 <div className="flex-row spaced-between full-width">
+                    {ceremonyTime.map((time, index) =>
+                        <CustomRadioButton
+                            selected={selectedTime}
+                            setRadio={setSelectedTime}
+                            name={time.title}
+                            index={index}
+                            key={index}
+                            subTxt={{ start: time.start, end: time.end }} />)}
+                </div>
+                <div className="flex-row spaced-between full-width">
                     {halls && halls.map((hall, index) => {
                         const mainImg = hall.urls.filter((img) => img.isMain === "1")
-                        return (<CustomRadioButton selected={selectedHall}
-                            index={index} setIsGalaryVisible={setIsGalaryVisible} setRadio={setSelectedHall}
-                            key={index} name={hall.name}
-                            uri={mainImg && mainImg.length === 1 ? `http://localhost:991/imgs/${mainImg[0].url}`
-                                : "https://img.traveltriangle.com/blog/wp-content/tr:w-700,h-400/uploads/2018/11/Terra-Caesarea.jpg"} />)
+                        return (
+                            <CustomRadioButton
+                                selected={selectedHall}
+                                mode="Hall"
+                                index={index}
+                                setIsGalaryVisible={setIsGalaryVisible}
+                                setRadio={setSelectedHall}
+                                key={index}
+                                name={hall.name}
+                                uri={mainImg && mainImg.length === 1 ? `http://localhost:991/imgs/${mainImg[0].url}`
+                                    : "https://img.traveltriangle.com/blog/wp-content/tr:w-700,h-400/uploads/2018/11/Terra-Caesarea.jpg"} />)
                     })}
                 </div>
-                <button type="submit">Save Pick</button>
-            </div>
+                <button onClick={() => {
+                    console.log(selectedDate)
+                    const date = new Date(selectedDate)
+                    const startDate = new Date(date.getFullYear(),
+                        date.getMonth(),
+                        date.getDate(),
+                        ceremonyTime[selectedTime].start.substr(0, 2),
+                        ceremonyTime[selectedTime].start.substr(3, 2))
+                    const endDate = new Date(date.getFullYear(), date.getMonth(), date.getDate(),
+                        ceremonyTime[selectedTime].end.substr(0, 2),
+                        ceremonyTime[selectedTime].end.substr(3, 2))
+                    const newEvent = {
+                        title: `${halls[selectedHall].name} ${startDate.toTimeString().substr(0, 5)} - ${endDate.toTimeString().substr(0, 5)}`,
+                        start: startDate,
+                        end: endDate
+                    }
+                    console.log(newEvent)
+                    setEvents(registeredEvents.concat(newEvent))
+                    setIsModalVisible(false)
+                }}>Save Pick</button>
+            </div >
         )
     }
-
     const onEventResize = (data) => {
         console.log(data)
         const { start, end } = data;
@@ -80,7 +174,10 @@ const CustomMonthlyCalendar = () => {
         // });
     };
 
-    const onDrillDown = (data) => {
+    const onSelectSlot = (data) => {
+        const eventDate = new Date(data)
+        console.log(eventDate)
+        setSelectedDate(eventDate)
         setIsModalVisible(true)
     }
 
@@ -93,17 +190,23 @@ const CustomMonthlyCalendar = () => {
                 onClose={() => setIsGalaryVisible(false)} />
             <div>
                 <DnDCalendar
+                    popup={true}
                     views={['month']}
                     localizer={localizer}
                     events={events}
                     onEventDrop={(data) => onEventResize(data)}
-                    onDrillDown={(data) => onDrillDown(data)}
+                    selectable={true}
+                    onSelectSlot={({ slots }) => onSelectSlot(slots[0])}
                     onKeyPressEvent={(data) => console.log(data)}
+                    dayPropGetter={calendarStyle}
                     startAccessor="start"
                     endAccessor="end"
                     style={{ height: 480, zIndex: 0 }} />
             </div>
-            <CustomModal isVisible={isModalVisible} setIsVisible={setIsModalVisible} body={pickHallModal()} />
+            <CustomModal
+                isVisible={isModalVisible}
+                setIsVisible={setIsModalVisible}
+                body={pickHallModal()} />
         </div>
     );
 };
