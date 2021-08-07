@@ -12,7 +12,8 @@ import {
     BUISNESS_NAME_FREE,
     SET_ERR,
     SET_BUISNESS,
-    FINISH_LOADING
+    FINISH_LOADING,
+    SET_HALL_AND_DATE
 } from './types';
 
 const CREDENTIALS_ERR = "Please Check Your Credentials"
@@ -20,7 +21,7 @@ const SERVER_ERR = "Mmm Thats Our Bad...Please Try Later"
 const EMAIL_WAS_SENT = "Email Was Sent"
 axios.defaults.withCredentials = true
 
-export const chooseHallAndDate = ({ event, hallPicked }) => async dispatch => {
+export const chooseHallAndDate = (event, hallPicked) => async dispatch => {
     dispatch({
         type: SET_HALL_AND_DATE,
         payload: { event, hallPicked }
