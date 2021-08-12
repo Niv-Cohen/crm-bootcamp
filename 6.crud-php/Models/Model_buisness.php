@@ -17,6 +17,29 @@ class Model_buisness extends Model
             ->fetch_all(MYSQLI_ASSOC);
         return $halls;
     }
+
+    public function getEventsPartition($buisnessID, $month, $year, $from)
+    {
+        $events = $this->getDB()
+            ->query(
+                "SELECT Events.id,
+                 brideName,groomName,price,Halls.name,EventDetails.numberOfGuests,Halls.capacity as capacity,
+                 SUBSTRING(time(date),1,5) as time , HallImages.name as url,
+            concat(Day(date),'/',Month(date),'/',Year(date)) as date
+            FROM crm.Events 
+            INNER Join Halls ON Halls.id = Events.hallID
+            INNER Join HallImages ON Halls.id = HallImages.hallID
+            INNER JOIN EventDetails ON Events.id = EventDetails.eventID
+            Where HallImages.isMain = 1 
+            AND Month(date) = '$month'
+            AND Year(date) = '$year'
+            AND Events.buisnessID = '$buisnessID'
+            ORDER BY Day(date)
+            LIMIT 0,5"
+            )->fetch_all(MYSQLI_ASSOC);
+        return $events;
+    }
+
     public function getHallsInfo($buisnessID)
     {
         $halls = $this->getDB()

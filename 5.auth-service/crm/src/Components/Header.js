@@ -6,8 +6,6 @@ import { useHistory } from "react-router"
 import { logout } from "../actions/auth"
 
 
-
-
 const Header = () => {
     const history = useHistory()
     const dispatch = useDispatch()

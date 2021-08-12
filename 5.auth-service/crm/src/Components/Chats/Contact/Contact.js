@@ -7,7 +7,7 @@ const Contact = ({ name, isLoggedIn, lastTxt, date, isSelected, setSelected, isT
         <div className={`contact ${isSelected && 'selected-contact'}`} onClick={setSelected}>
             <div className="flex-col full-width">
                 <div className="flex-row full-width spaced">
-                    {name}
+                    <div className="name">{name}</div>
                     <div className="date">{date}</div>
                 </div>
                 <div className="flex-row centered full-height flex-start">

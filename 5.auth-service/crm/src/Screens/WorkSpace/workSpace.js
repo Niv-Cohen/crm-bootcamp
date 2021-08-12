@@ -17,7 +17,6 @@ const WorkSpace = () => {
     }
     return (
         <div className="flex-col">
-            <Header />
             <div className="flex-row">
                 <SideNavBar selected="My WorkSpace" />
                 <div className="flex-col full-width">

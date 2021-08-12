@@ -6,7 +6,6 @@ const CreateEvent = () => {
 
     return (
         <>
-            <Header />
             <div className="flex-row">
                 <SideNavBar selected="Create Event" />
                 <EventForm />

@@ -7,7 +7,11 @@ const requireAuth = (req, res, next) => {
     if (split.length > 1 && (split[1] === 'auth')) {
         next()
     } else {
-        const token = req.cookies.token;
+        let token
+        if (split.length > 1 && split[1] === 'app')
+            token = req.body.token
+        else
+            token = req.cookies.token;
         console.log('token', token)
         if (!token) {
             return res.sendStatus(430);

@@ -101,7 +101,7 @@ router.post("/login", async (req, res) => {
                 const isMatch = await bcrypt.compare(password, user.password)
                 if (isMatch) {
                     const token = generateToken(res, userInfo.id, userInfo, false)
-                    return res.cookie('token', token).status(200).json({ userInfo, buisness: { buisnessID, buisnessName } })
+                    return res.cookie('token', token).status(200).json({ token, userInfo, buisness: { buisnessID, buisnessName } })
                 }
                 else
                     return res.sendStatus(401)

@@ -45,6 +45,34 @@ app.get('/me', (req, res) => {
   }
 })
 
+app.post('/app/me', (req, res) => {
+  const { id } = req.user
+  try {
+    let sql = `SELECT users.id,users.password ,users.firstName, users.lastName, users.email, users.phoneNumber, users.isAdmin, Buisnesses.id as buisnessID,
+    Buisnesses.name as buisnessName 
+    FROM users INNER JOIN Buisnesses ON users.buisnessID = Buisnesses.id WHERE users.id='${id}'`;
+    db.query(sql, (err, result) => {
+      if (err)
+        return res.sendStatus(500)
+      const user = result[0]
+      console.log(user)
+      const { buisnessID, firstName, lastName, id, email, phoneNumber, isAdmin, buisnessName } = user
+      const userInfo = { firstName, lastName, id, email, phoneNumber, isAdmin }
+      return res.status(200).send({ userInfo, buisness: { buisnessID, buisnessName } })
+    })
+  } catch {
+    return res.sendStatus(403);
+  }
+})
+
+
+
+
+
+
+
+
+
 app.get('/', (req, res) => {
   res.send('hello there');
 });

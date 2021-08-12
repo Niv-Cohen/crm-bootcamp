@@ -1,33 +1,25 @@
 .my-date{
-    background-color: #095F62;
-    width: -moz-fit-content;
-    width: fit-content;
-    max-width: 200px;
-    margin-inline: 10px;
-    margin-bottom: 0;
-    margin-left: 15px;
-    padding-inline: 10px;
-    padding-top: 1px;
-    color: #e7e7e8;
-    padding-bottom: 0;
-    border-top-left-radius: 3px;
-    border-top-right-radius: 3px;
-    align-self: flex-end;
-
-    
+  margin-top: 3px;
+  margin-bottom: -8px;
+  margin-left: -35px;
+  color: #ccb8b8;
+  font-size: 11px;
   }
 
   .others-date{
-    background-color: rgb(37,47,49);
-    width: -moz-fit-content;
-    width: fit-content;
-    max-width: 200px;
-    margin: 10px;
-    padding-inline: 10px;
-    padding-top: 1px;
-    color: #e7e7e8;
-    padding-bottom: 0;
-    border-top-left-radius: 3px;
-    
+  background-color: #14093e;
+  margin-top: 3px;
+  align-self: flex-end;
+  margin-right: -32px;
+  font-size: 11px;
+  }
 
+
+  .new-date{
+    background-color: #dfdcd3;
+    width: fit-content;
+    align-self: center;
+    margin-top: 10px;
+    padding: 4px 16px;
+    border-radius: 10px;
   }

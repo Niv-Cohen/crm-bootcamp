@@ -161,38 +161,6 @@ const CustomChat = () => {
         <>
             {console.log(rooms)}
             <div className="flex-row flex-divider">
-                <div className="chat centered">
-                    {(rooms && rooms.length > 0) ?
-
-
-                        <div className="chat-container">
-                            <div className="chat-header">
-                                <h1 className="centered full-height contact-header">{rooms[selectedRoom].user.firstName + "  "}
-                                    {rooms[selectedRoom].user.isTyping && "Typing..."}</h1>
-                            </div>
-                            <div className="chat-body">
-                                {rooms[selectedRoom].conversation.map((message, index) =>
-                                    <MessageContainer key={index} date={message.date} txt={message.message} clas={`${message.from === myUserID ? "my" : "others"}`} />)}
-                            </div>
-                            <div className="chat-footer">
-                                <form>
-                                    <input
-                                        type="text"
-                                        id="message-input"
-                                        value={msg}
-                                        onChange={e => onChange(e)
-
-                                        } />
-                                    <button id="send-button" onClick={sendMessage}>
-                                        Send
-                                    </button>
-                                </form>
-                            </div>
-                        </div>
-                        :
-                        <h1 className="centered">No Rooms Available</h1>
-                    }
-                </div>
                 <div className="contacts">
                     <div className="contacts-header centered">
                         <h1>Contacts</h1>
@@ -211,6 +179,43 @@ const CustomChat = () => {
                             />)}
                     </div>
                 </div>
+                <div className="chat centered">
+                    {(rooms && rooms.length > 0) ?
+                        <div className="chat-container">
+                            <div className="chat-header">
+                                <h1 className="centered full-height contact-header">{rooms[selectedRoom].user.firstName + "  "}
+                                    {rooms[selectedRoom].user.isTyping && "Typing..."}</h1>
+                            </div>
+                            <div className="chat-body">
+                                {console.log(rooms[selectedRoom].conversation[0].date.split(' '))}
+                                {rooms[selectedRoom].conversation.map((message, index) =>
+                                    <MessageContainer key={index} date={message.date} txt={message.message}
+                                        isNewDate={rooms[selectedRoom].conversation[index].date && ((index === 0) || (index > 0 &&
+                                            rooms[selectedRoom].conversation[index].date.split(' ')[0]
+                                            !== rooms[selectedRoom].conversation[index - 1].date.split(' ')[0]))
+                                        }
+                                        clas={`${message.from === myUserID ? "my" : "others"}`} />)}
+                            </div>
+                            <div className="chat-footer">
+                                <form>
+                                    <input
+                                        type="text"
+                                        id="message-input"
+                                        placeholder="Enter Something"
+                                        value={msg}
+                                        onChange={e => onChange(e)
+                                        } />
+                                    <button id="send-button" onClick={sendMessage}>
+                                        Send
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                        :
+                        <h1 className="centered">No Rooms Available</h1>
+                    }
+                </div>
+
             </div>
         </>
     )

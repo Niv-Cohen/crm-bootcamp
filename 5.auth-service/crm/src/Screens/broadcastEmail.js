@@ -15,7 +15,6 @@ const BroadcastEmail = () => {
 
     return (
         <>
-            <Header />
             <div className="flex-row">
                 <SideNavBar selected="Broadcast" />
                 <div className="flex-col full-width mg-top ">

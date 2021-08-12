@@ -8,7 +8,6 @@ import { checkAuth } from '../../actions/auth'
 const Chats = () => {
     return (
         <>
-            <Header />
             <div className="flex-row">
                 <SideNavBar />
                 <CustomChat />

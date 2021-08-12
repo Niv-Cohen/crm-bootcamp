@@ -1,5 +1,5 @@
 import React from 'react'
-import CustomMonthlyCalendar from './CustomMonthlyCalendar'
+import CustomMonthlyCalendar from './MonthlyCalender/CustomMonthlyCalendar'
 
 const DateAndLocation = () => {
 
@@ -8,7 +8,6 @@ const DateAndLocation = () => {
             <h1>Date And Location</h1>
             <CustomMonthlyCalendar />
         </div>
-
     )
 }
 

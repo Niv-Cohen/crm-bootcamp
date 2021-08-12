@@ -25,10 +25,18 @@ const restoreConv = async () => {
         workerID = worker
         clientID = client
         savedRoom = room
-        roomObj.conversation.forEach(msgObj => {
-
+        console.log(roomObj.conversation)
+        roomObj.conversation.forEach((msgObj, index) => {
             displayMsg(msgObj, msgObj.from == clientID ?
                 "my" : "others")
+            let isNewDate = roomObj.conversation[index].date && ((index === 0) || (index > 0 &&
+                roomObj.conversation[index].date.split(' ')[0]
+                !== roomObj.conversation[index - 1].date.split(' ')[0]))
+            if (msgObj.date) {
+                console.log(isNewDate, msgObj)
+                displayDate(isNewDate, msgObj.date.split(' ')[0])
+            }
+
         })
         initSocket(message, room, host)
     } catch {
@@ -36,6 +44,32 @@ const restoreConv = async () => {
             displayMsg({ message: txt }, "others")
         })
     }
+}
+
+
+const displayDate = (isNewDate, date) => {
+    let messagesContainer = document.getElementById('messages-container')
+    let myDate = document.createElement("span")
+    let dateParams = date.split('/')
+    console.log(dateParams)
+    const today = new Date()
+
+    console.log(today.getFullYear() == dateParams[2])
+    console.log(today.getMonth() + 1 == dateParams[1])
+    console.log(today.getDate() == dateParams[0])
+    myDate.innerText = date
+    if (today.getFullYear() == dateParams[2]) {
+        console.log(1)
+        if ((today.getMonth() + 1) == dateParams[1]) {
+            console.log(2)
+            if (today.getDate() == dateParams[0]) {
+                myDate.innerText = "Today"
+            }
+        }
+    }
+    myDate.className = 'new-date'
+    if (isNewDate)
+        messagesContainer.appendChild(myDate)
 }
 
 
@@ -53,7 +87,7 @@ const initSocket = (msg, room, host) => {
             toggleTypingMsg(isTyping, name)
         })
         socket.emit('join-room', room, message => {
-            displayMsg(message, 'others')
+            //displayMsg(message, 'others')
             socket.emit('notify-host', host, room)
         })
     })
@@ -143,17 +177,25 @@ const displayMsg = (messageObj, side) => {
             console.log("Taking message")
         }
     }
-
-    if (messageObj.date) {
-        let dateElm = document.createElement("span")
-        dateElm.innerText = messageObj.date
-        dateElm.className = `${side}-date`
-        messagesContainer.appendChild(dateElm)
-    }
+    console.log(messageObj)
+    let div = document.createElement("div")
+    let myElm = document.createElement("span")
+    let dateElm = document.createElement("span")
+    div.className = `${side}-msg-container`
     if (msg) {
-        let myElm = document.createElement("span")
         myElm.innerText = msg
         myElm.className = `${side}-msg`
+    }
+    if (messageObj.date) {
+        messagesContainer.appendChild(div)
+        div.appendChild(myElm)
+        const dateParams = messageObj.date.split(' ')
+        dateElm.innerText = dateParams[1]
+        dateElm.className = `${side}-date`
+        div.appendChild(dateElm)
+    } else {
         messagesContainer.appendChild(myElm)
+        myElm.className = `${side}-msg-container`
+
     }
 }

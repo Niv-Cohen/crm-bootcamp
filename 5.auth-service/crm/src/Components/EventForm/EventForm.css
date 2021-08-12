@@ -1,18 +1,26 @@
 .event-side-button{
     width: fit-content;
+    height: fit-content;
+    margin-top: 4px;
     min-width: 80px;
+    font-weight: 700;
     height: 30px;
     min-height: 1px;
-    background-color: gray;
-    border-style: outset;
+    color: gray;
+    background-color: #dfdcd3;
+    border-top-left-radius:200px;
+    border-top-right-radius:200px;
+    padding-inline: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
 }
-
+.event-side-button:hover{
+    cursor: pointer;
+}
 .selected{
-    border-style: inset;
-    background-color: whitesmoke;
+    /* border-style: inset; */
+    background-color:#b994b7 ;
 }
 
 .event-container{
@@ -20,7 +28,7 @@
     height: 100%;
     background-color: whitesmoke;
     min-height: 1px;
-    border-style: outset;
+    border-top-style: outset;
 }
 
 .full-width{

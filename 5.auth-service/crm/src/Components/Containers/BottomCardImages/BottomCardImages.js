@@ -25,12 +25,13 @@ const BottomCardImages = ({ images, isEditMode, hallID }) => {
     }
     return (
         <>
-            <div className="flex-row spaced-evenly align-items-center full-width">
+            <div className="flex-row flex-end full-width">
                 {images && images.map((img, index) => <HallCardImage img={img} key={index} hallID={hallID} isEditMode={isEditMode} />)}
                 {images && images.length < 3 && <>
                     <input type="file" className="inputfile" id={hallID} onChange={fileSelect} />
                     <label htmlFor={hallID}>
-                        <AiOutlinePlusSquare size={60} />
+
+                        <AiOutlinePlusSquare color='yellow' size={60} />
                     </label>
                 </>
                 }

@@ -22,8 +22,6 @@ const CustomCard = ({ hall }) => {
   const [delModalVisible, setDelModalVisible] = useState(false)
   const deleteModal = () => <AuthForm hallID={hall.hallID} mode='Remove Hall'
     closeModal={() => setDelModalVisible(false)} formFields={[]} />
-
-  console.log('hall', hall.hallID, hall)
   const body = () => isEditMode ?
     <AuthForm mode="Edit Hall"
       initValues={{ capacity: hall.capacity, price: hall.price, name: hall.name }}
@@ -48,7 +46,9 @@ const CustomCard = ({ hall }) => {
       <EditButton isClicked={isEditMode} onClickedFunc={() => {
         setIsEditMode(!isEditMode)
       }} />
-      <CustomModal isVisible={delModalVisible} setIsVisible={() => setDelModalVisible(false)} body={deleteModal()} />
+      <CustomModal isVisible={delModalVisible}
+        setIsVisible={() => setDelModalVisible(false)}
+        body={deleteModal()} />
       <Card style={{
         width: '100%'
       }}>

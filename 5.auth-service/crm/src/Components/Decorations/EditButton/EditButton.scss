@@ -1,6 +1,6 @@
 .edit-button{
     position: absolute;
-    top: -10%;
+    top: 20px;
     border-radius: 20px;
     background-color: wheat;
     right: -9px;
@@ -11,7 +11,8 @@
     cursor: pointer;
 }
 
-
 .clicked{
     background-color: rgb(116, 92, 112);
+    position: absolute;
+    top:-20%;
 }

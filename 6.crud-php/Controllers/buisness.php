@@ -71,6 +71,22 @@ class buisness extends controller
         // return $this->response;
     }
 
+    public function getEventsPartition()
+    {
+        $this->buisnessID = $this->input['buisnessID'];
+        $this->month = $this->input['month'];
+        $this->year = $this->input['year'];
+        $this->initEvent = $this->input['initEvent'];
+        $events = $this->model->getEventsPartition(
+            $this->buisnessID,
+            $this->month,
+            $this->year,
+            $this->initEvent
+        );
+        $this->response["events"] = $events;
+        return $this->response;
+    }
+
     public function updateHallImgs()
     {
         $this->buisnessID = $this->input['buisnessID'];
